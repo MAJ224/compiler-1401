@@ -1,5 +1,12 @@
-
 package GUI;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 
 /**
  *
@@ -13,9 +20,11 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
     }
-    public void SetText(String txt){
+
+    public void SetText(String txt) {
         jTextPane.setText(txt);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,7 +50,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         MainFrameTitlejLabel.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         MainFrameTitlejLabel.setText("Java Compiler Project");
-        MainFrameTitlejLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        MainFrameTitlejLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         LoadFilejButton.setText("Load File");
         LoadFilejButton.addActionListener(new java.awt.event.ActionListener() {
@@ -53,6 +62,11 @@ public class MainFrame extends javax.swing.JFrame {
         InputCodejLabel.setText("Your Code :");
 
         SaveFilejButton.setText("Save File");
+        SaveFilejButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveFilejButtonActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setViewportView(jTextPane);
         TextLineNumber tln = new TextLineNumber(jTextPane);
@@ -99,16 +113,46 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoadFilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadFilejButtonActionPerformed
-        // TODO add your handling code here:
-        OpenFileJFrame OPF = new OpenFileJFrame();
-        OPF.setVisible(true);
+        
+        String Text = "";
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int returnValue = jfc.showOpenDialog(null);
+        
+        // Query whether "Open" was clicked
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            Scanner scn = null;
+            File file = jfc.getSelectedFile();
+            try {
+                scn = new Scanner(file); //file to be scanned
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            // while there is another line to read 
+            while (scn.hasNext()) {
+                Text += scn.nextLine() + "\n";
+            }
+            Main.Main.data.SetText(Text);
+            Main.Main.data.MF.SetText(Text);
+            scn.close(); // closes the scanner
+        }
+
     }//GEN-LAST:event_LoadFilejButtonActionPerformed
+
+    private void SaveFilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveFilejButtonActionPerformed
+        
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int returnValue = jfc.showSaveDialog(null);
+        
+        // Query whether "Save" was clicked
+        if (returnValue == JFileChooser.SAVE_DIALOG){
+            
+        }
+        
+    }//GEN-LAST:event_SaveFilejButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
-
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -137,8 +181,7 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
-                
-                
+
             }
         });
     }
