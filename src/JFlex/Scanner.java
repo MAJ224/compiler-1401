@@ -22,12 +22,15 @@ package JFlex;
    the numbers are not very fast. 
    For a production quality application (e.g. a Java compiler) 
    this could be optimized */
+import java.io.File;
 import java_cup.runtime.*;
+import jflex.sym;
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
-public class Scanner implements sym, java_cup.runtime.Scanner {
+public class Scanner extends sym implements java_cup.runtime.Scanner {
 
+    static String output = "";
     /**
      * This character denotes the end of file.
      */
@@ -2357,7 +2360,7 @@ public class Scanner implements sym, java_cup.runtime.Scanner {
      */
     public java_cup.runtime.Symbol debug_next_token() throws java.io.IOException {
         java_cup.runtime.Symbol s = next_token();
-        System.out.println("line:" + (yyline + 1) + " col:" + (yycolumn + 1) + " --" + yytext() + "--" + getTokenName(s.sym) + "--");
+        output += ("line:" + (yyline + 1) + " col:" + (yycolumn + 1) + " --" + yytext() + "--" + getTokenName(s.sym) + "--");
         return s;
     }
 
@@ -2368,46 +2371,27 @@ public class Scanner implements sym, java_cup.runtime.Scanner {
      * debugging information about each returned token to System.out until the
      * end of file is reached, or an error occured.
      *
-     * @param argv the command line, contains the filenames to run the scanner
-     * on.
      */
-    public static void main(String[] argv) {
-        if (argv.length == 0) {
-            System.out.println("Usage : java Scanner [ --encoding <name> ] <inputfile(s)>");
-        } else {
-            int firstFilePos = 0;
-            String encodingName = "UTF-8";
-            if (argv[0].equals("--encoding")) {
-                firstFilePos = 2;
-                encodingName = argv[1];
-                try {
-                    // Side-effect: is encodingName valid?
-                    java.nio.charset.Charset.forName(encodingName);
-                } catch (Exception e) {
-                    System.out.println("Invalid encoding '" + encodingName + "'");
-                    return;
-                }
+    public static void run(File file) {
+
+        Scanner scanner = null;
+        try {
+            file = Main.Main.data.getFile();
+            java.io.FileInputStream stream = new java.io.FileInputStream(file);
+            java.io.Reader reader = new java.io.InputStreamReader(stream);
+            scanner = new Scanner(reader);
+            while (!scanner.zzAtEOF) {
+                scanner.debug_next_token();
             }
-            for (int i = firstFilePos; i < argv.length; i++) {
-                Scanner scanner = null;
-                try {
-                    java.io.FileInputStream stream = new java.io.FileInputStream(argv[i]);
-                    java.io.Reader reader = new java.io.InputStreamReader(stream, encodingName);
-                    scanner = new Scanner(reader);
-                    while (!scanner.zzAtEOF) {
-                        scanner.debug_next_token();
-                    }
-                } catch (java.io.FileNotFoundException e) {
-                    System.out.println("File not found : \"" + argv[i] + "\"");
-                } catch (java.io.IOException e) {
-                    System.out.println("IO error scanning file \"" + argv[i] + "\"");
-                    System.out.println(e);
-                } catch (Exception e) {
-                    System.out.println("Unexpected exception:");
-                    e.printStackTrace();
-                }
-            }
+        } catch (java.io.IOException e) {
+            System.out.println("IO error scanning file \"" + file.getName() + "\"");
+            System.out.println(e);
+        } catch (Exception e) {
+            System.out.println("Unexpected exception:");
+            e.printStackTrace();
         }
+        Main.Main.data.setOutput(output);
+        
     }
 
 }

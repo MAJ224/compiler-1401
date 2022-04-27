@@ -2,6 +2,7 @@
 package Main;
 
 import GUI.MainFrame;
+import JFlex.Scanner;
 
 /**
  *

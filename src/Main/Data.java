@@ -6,6 +6,7 @@
 package Main;
 
 import GUI.MainFrame;
+import java.io.File;
 
 /**
  *
@@ -14,19 +15,38 @@ import GUI.MainFrame;
 public class Data {
     
     private String Text = "";
+    private String Output = "";
+    private File file;
     public MainFrame MF;
+    
     
     Data(MainFrame MF){
         this.MF = MF;
         MF.setVisible(true);
     }
     
-    public void SetText(String str){
+    public void setText(String str){
         Text = str;
     }
-    public String GetText(){
+    
+    public String getText(){
         return Text;
     }
     
+    public String getOutput() {
+        return Output;
+    }
+
+    public void setOutput(String Output) {
+        this.Output = Output;
+    }
+    
+    public void SetFile(File file){
+        this.file = file;
+    }
+
+    public File getFile() {
+        return file;
+    }
     
 }

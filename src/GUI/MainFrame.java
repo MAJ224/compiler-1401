@@ -40,6 +40,7 @@ public class MainFrame extends javax.swing.JFrame {
         SaveFilejButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane = new javax.swing.JTextPane();
+        CompilejButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Compiler Project 98213011");
@@ -72,6 +73,13 @@ public class MainFrame extends javax.swing.JFrame {
         TextLineNumber tln = new TextLineNumber(jTextPane);
         jScrollPane1.setRowHeaderView(tln);
 
+        CompilejButton.setText("Compile");
+        CompilejButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CompilejButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -82,6 +90,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(InputCodejLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CompilejButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(LoadFilejButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(SaveFilejButton))
@@ -103,7 +113,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LoadFilejButton)
                     .addComponent(InputCodejLabel)
-                    .addComponent(SaveFilejButton))
+                    .addComponent(SaveFilejButton)
+                    .addComponent(CompilejButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                 .addContainerGap())
@@ -116,14 +127,16 @@ public class MainFrame extends javax.swing.JFrame {
         
         String Text = "";
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        int returnValue = jfc.showOpenDialog(null);
+        int returnValue = jfc.showOpenDialog(null);      
         
         // Query whether "Open" was clicked
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             Scanner scn = null;
             File file = jfc.getSelectedFile();
+            Main.Main.data.SetFile(file);
+            System.out.println(file.getPath());
             try {
-                scn = new Scanner(file); //file to be scanned
+                scn = new Scanner(Main.Main.data.getFile()); //file to be scanned
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -131,7 +144,7 @@ public class MainFrame extends javax.swing.JFrame {
             while (scn.hasNext()) {
                 Text += scn.nextLine() + "\n";
             }
-            Main.Main.data.SetText(Text);
+            Main.Main.data.setText(Text);
             Main.Main.data.MF.SetText(Text);
             scn.close(); // closes the scanner
         }
@@ -149,6 +162,12 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_SaveFilejButtonActionPerformed
+
+    private void CompilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompilejButtonActionPerformed
+        
+        JFlex.Scanner.run(Main.Main.data.getFile());
+        
+    }//GEN-LAST:event_CompilejButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,6 +206,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CompilejButton;
     private javax.swing.JLabel InputCodejLabel;
     private javax.swing.JButton LoadFilejButton;
     private javax.swing.JLabel MainFrameTitlejLabel;
