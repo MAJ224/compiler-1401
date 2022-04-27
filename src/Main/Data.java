@@ -6,6 +6,7 @@
 package Main;
 
 import GUI.MainFrame;
+import GUI.OptionsJPanel;
 import java.io.File;
 
 /**
@@ -17,7 +18,8 @@ public class Data {
     private String Text = "";
     private String Output = "";
     private File file;
-    public MainFrame MF;
+    private MainFrame MF;
+    private OptionsJPanel OP;
     
     
     Data(MainFrame MF){
@@ -49,4 +51,18 @@ public class Data {
         return file;
     }
     
+    public void SetMFText(String txt) {
+        MF.SetText(txt);
+    }
+    
+    public String getMFText(){
+        return MF.getText();
+    }
+    
+    public void setOP(OptionsJPanel OP){
+        this.OP = OP;
+    }
+    public OptionsJPanel getOP(){
+        return OP;
+    }
 }

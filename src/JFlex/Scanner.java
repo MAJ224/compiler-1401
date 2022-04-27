@@ -2360,7 +2360,7 @@ public class Scanner extends sym implements java_cup.runtime.Scanner {
      */
     public java_cup.runtime.Symbol debug_next_token() throws java.io.IOException {
         java_cup.runtime.Symbol s = next_token();
-        output += ("line:" + (yyline + 1) + " col:" + (yycolumn + 1) + " --" + yytext() + "--" + getTokenName(s.sym) + "--");
+        output += ("line:" + (yyline + 1) + " col:" + (yycolumn + 1) + " --" + yytext() + "--" + getTokenName(s.sym) + "--\n");
         return s;
     }
 

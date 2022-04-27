@@ -2,10 +2,13 @@ package GUI;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
 
 /**
@@ -13,6 +16,8 @@ import javax.swing.filechooser.FileSystemView;
  * @author Mohamad Amin Javan 98213011
  */
 public class MainFrame extends javax.swing.JFrame {
+
+    JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
     /**
      * Creates new form MainFrame
@@ -23,6 +28,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void SetText(String txt) {
         jTextPane.setText(txt);
+    }
+    
+    public String getText(){
+        return jTextPane.getText();
     }
 
     /**
@@ -124,17 +133,15 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoadFilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadFilejButtonActionPerformed
-        
+
         String Text = "";
-        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        int returnValue = jfc.showOpenDialog(null);      
-        
+        int returnValue = jfc.showOpenDialog(null);
+
         // Query whether "Open" was clicked
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             Scanner scn = null;
             File file = jfc.getSelectedFile();
             Main.Main.data.SetFile(file);
-            System.out.println(file.getPath());
             try {
                 scn = new Scanner(Main.Main.data.getFile()); //file to be scanned
             } catch (FileNotFoundException ex) {
@@ -145,7 +152,7 @@ public class MainFrame extends javax.swing.JFrame {
                 Text += scn.nextLine() + "\n";
             }
             Main.Main.data.setText(Text);
-            Main.Main.data.MF.SetText(Text);
+            Main.Main.data.SetMFText(Text);
             scn.close(); // closes the scanner
         }
 
@@ -153,20 +160,34 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void SaveFilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveFilejButtonActionPerformed
         
-        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        int returnValue = jfc.showSaveDialog(null);
-        
-        // Query whether "Save" was clicked
-        if (returnValue == JFileChooser.SAVE_DIALOG){
-            
+        String text = Main.Main.data.getMFText();
+        Main.Main.data.setText(text);
+        try (PrintWriter pw = new PrintWriter(Main.Main.data.getFile().getAbsolutePath())) {
+            pw.write(text);
+            pw.flush();
+            pw.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "An error occurred while saving!", "Error", 0);
         }
-        
+        JOptionPane.showMessageDialog(this, "New File Has Been Saved!", "Success", 1);
+
     }//GEN-LAST:event_SaveFilejButtonActionPerformed
 
     private void CompilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompilejButtonActionPerformed
-        
-        JFlex.Scanner.run(Main.Main.data.getFile());
-        
+
+        if (Main.Main.data.getFile() == null) {
+            JOptionPane.showMessageDialog(this, "No File is Selected!", "Error", 0);
+        } else {
+            JFlex.Scanner.run(Main.Main.data.getFile());
+            if (JOptionPane.showConfirmDialog(this, "Continue To See Scanned Output?",
+                    "Scan Completed", 2) == JOptionPane.YES_OPTION){
+                OptionsJPanel OP = new OptionsJPanel();
+                Main.Main.data.setOP(OP);
+                this.setContentPane(Main.Main.data.getOP());
+                this.pack();
+            }
+        }
+
     }//GEN-LAST:event_CompilejButtonActionPerformed
 
     /**
