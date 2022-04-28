@@ -31,6 +31,7 @@ import jflex.sym;
 public class Scanner extends sym implements java_cup.runtime.Scanner {
 
     static String output = "";
+
     /**
      * This character denotes the end of file.
      */
@@ -2360,23 +2361,15 @@ public class Scanner extends sym implements java_cup.runtime.Scanner {
      */
     public java_cup.runtime.Symbol debug_next_token() throws java.io.IOException {
         java_cup.runtime.Symbol s = next_token();
-        output += ("line:" + (yyline + 1) + " col:" + (yycolumn + 1) + " --" + yytext() + "--" + getTokenName(s.sym) + "--\n");
+        output += ("line: " + (yyline + 1) + " col: " + (yycolumn + 1) +
+                " --> Symbol: " + yytext() + " Token: " + getTokenName(s.sym) + "\n");
         return s;
     }
 
-    /**
-     * Runs the scanner on input files.
-     *
-     * This main method is the debugging routine for the scanner. It prints
-     * debugging information about each returned token to System.out until the
-     * end of file is reached, or an error occured.
-     *
-     */
-    public static void run(File file) {
+    public static String run(File file) {
 
         Scanner scanner = null;
         try {
-            file = Main.Main.data.getFile();
             java.io.FileInputStream stream = new java.io.FileInputStream(file);
             java.io.Reader reader = new java.io.InputStreamReader(stream);
             scanner = new Scanner(reader);
@@ -2390,8 +2383,8 @@ public class Scanner extends sym implements java_cup.runtime.Scanner {
             System.out.println("Unexpected exception:");
             e.printStackTrace();
         }
-        Main.Main.data.setOutput(output);
-        
+        return output;
+
     }
 
 }

@@ -7,7 +7,6 @@ package jflex;
 public class sym {
   /* terminals */
   public static final int SHORT = 4;
-//  public static final int String  = 4;
   public static final int IDENTIFIER = 98;
   public static final int ANDEQ = 90;
   public static final int GT = 70;

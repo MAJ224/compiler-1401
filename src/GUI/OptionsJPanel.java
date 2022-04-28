@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileSystemView;
 
 /**
  *
@@ -38,10 +37,12 @@ public class OptionsJPanel extends javax.swing.JPanel {
         jTabbedPane = new javax.swing.JTabbedPane();
         TLjScrollPane = new javax.swing.JScrollPane();
         TLjTextPane = new javax.swing.JTextPane();
+        TablejScrollPane = new javax.swing.JScrollPane();
+        jTable = new javax.swing.JTable();
 
         MainFrameTitlejLabel.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         MainFrameTitlejLabel.setText("Java Compiler Project");
-        MainFrameTitlejLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        MainFrameTitlejLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
 
         SaveOutputjButton.setText("Save Output");
         SaveOutputjButton.addActionListener(new java.awt.event.ActionListener() {
@@ -54,6 +55,35 @@ public class OptionsJPanel extends javax.swing.JPanel {
         TLjTextPane.setText(Main.Main.data.getOutput());
 
         jTabbedPane.addTab("Tokens List", TLjScrollPane);
+
+        jTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Type", "Value"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TablejScrollPane.setViewportView(jTable);
+
+        jTabbedPane.addTab("tab2", TablejScrollPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -103,6 +133,8 @@ public class OptionsJPanel extends javax.swing.JPanel {
     private javax.swing.JButton SaveOutputjButton;
     private javax.swing.JScrollPane TLjScrollPane;
     private javax.swing.JTextPane TLjTextPane;
+    private javax.swing.JScrollPane TablejScrollPane;
     private javax.swing.JTabbedPane jTabbedPane;
+    private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
 }

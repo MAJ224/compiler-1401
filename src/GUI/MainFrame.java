@@ -155,7 +155,7 @@ public class MainFrame extends javax.swing.JFrame {
             Main.Main.data.SetMFText(Text);
             scn.close(); // closes the scanner
         }
-
+        
     }//GEN-LAST:event_LoadFilejButtonActionPerformed
 
     private void SaveFilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveFilejButtonActionPerformed
@@ -178,7 +178,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (Main.Main.data.getFile() == null) {
             JOptionPane.showMessageDialog(this, "No File is Selected!", "Error", 0);
         } else {
-            JFlex.Scanner.run(Main.Main.data.getFile());
+            Main.Main.data.setOutput(JFlex.Scanner.run(Main.Main.data.getFile()));
             if (JOptionPane.showConfirmDialog(this, "Continue To See Scanned Output?",
                     "Scan Completed", 2) == JOptionPane.YES_OPTION){
                 OptionsJPanel OP = new OptionsJPanel();
