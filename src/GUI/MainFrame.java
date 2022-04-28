@@ -1,5 +1,6 @@
 package GUI;
 
+import java.awt.Container;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,7 +19,7 @@ import javax.swing.filechooser.FileSystemView;
 public class MainFrame extends javax.swing.JFrame {
 
     JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-
+    Container cp = this.getContentPane();
     /**
      * Creates new form MainFrame
      */
@@ -56,7 +57,6 @@ public class MainFrame extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 500, 500));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        setResizable(false);
 
         MainFrameTitlejLabel.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         MainFrameTitlejLabel.setText("Java Compiler Project");
@@ -141,9 +141,9 @@ public class MainFrame extends javax.swing.JFrame {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             Scanner scn = null;
             File file = jfc.getSelectedFile();
-            Main.Main.data.SetFile(file);
+            Main.Data.file = file;
             try {
-                scn = new Scanner(Main.Main.data.getFile()); //file to be scanned
+                scn = new Scanner(Main.Data.file); //file to be scanned
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -151,8 +151,8 @@ public class MainFrame extends javax.swing.JFrame {
             while (scn.hasNext()) {
                 Text += scn.nextLine() + "\n";
             }
-            Main.Main.data.setText(Text);
-            Main.Main.data.SetMFText(Text);
+            Main.Data.Text = Text;
+            Main.Data.MF.SetText(Text);
             scn.close(); // closes the scanner
         }
         
@@ -160,9 +160,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void SaveFilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveFilejButtonActionPerformed
         
-        String text = Main.Main.data.getMFText();
-        Main.Main.data.setText(text);
-        try (PrintWriter pw = new PrintWriter(Main.Main.data.getFile().getAbsolutePath())) {
+        String text = Main.Data.MF.getText();
+        Main.Data.Text = text;
+        try (PrintWriter pw = new PrintWriter(Main.Data.file.getAbsolutePath())) {
             pw.write(text);
             pw.flush();
             pw.close();
@@ -175,15 +175,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void CompilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompilejButtonActionPerformed
 
-        if (Main.Main.data.getFile() == null) {
+        if (Main.Data.file == null) {
             JOptionPane.showMessageDialog(this, "No File is Selected!", "Error", 0);
         } else {
-            Main.Main.data.setOutput(JFlex.Scanner.run(Main.Main.data.getFile()));
+            Main.Data.Output = JFlex.Scanner.run(Main.Data.file);
             if (JOptionPane.showConfirmDialog(this, "Continue To See Scanned Output?",
                     "Scan Completed", 2) == JOptionPane.YES_OPTION){
                 OptionsJPanel OP = new OptionsJPanel();
-                Main.Main.data.setOP(OP);
-                this.setContentPane(Main.Main.data.getOP());
+                Main.Data.OP = OP;
+                this.setContentPane(Main.Data.OP);
                 this.pack();
             }
         }

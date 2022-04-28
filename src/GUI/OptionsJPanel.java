@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Arash
+ * @author Mohamad Amin Javan
  */
 public class OptionsJPanel extends javax.swing.JPanel {
 
@@ -21,6 +21,7 @@ public class OptionsJPanel extends javax.swing.JPanel {
      */
     public OptionsJPanel() {
         initComponents();
+        
     }
 
     /**
@@ -39,10 +40,11 @@ public class OptionsJPanel extends javax.swing.JPanel {
         TLjTextPane = new javax.swing.JTextPane();
         TablejScrollPane = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
+        ReturnjButton = new javax.swing.JButton();
 
         MainFrameTitlejLabel.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         MainFrameTitlejLabel.setText("Java Compiler Project");
-        MainFrameTitlejLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        MainFrameTitlejLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         SaveOutputjButton.setText("Save Output");
         SaveOutputjButton.addActionListener(new java.awt.event.ActionListener() {
@@ -52,7 +54,7 @@ public class OptionsJPanel extends javax.swing.JPanel {
         });
 
         TLjScrollPane.setViewportView(TLjTextPane);
-        TLjTextPane.setText(Main.Main.data.getOutput());
+        TLjTextPane.setText(Main.Data.Output);
 
         jTabbedPane.addTab("Tokens List", TLjScrollPane);
 
@@ -85,6 +87,13 @@ public class OptionsJPanel extends javax.swing.JPanel {
 
         jTabbedPane.addTab("tab2", TablejScrollPane);
 
+        ReturnjButton.setText("Return");
+        ReturnjButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReturnjButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,9 +101,11 @@ public class OptionsJPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(103, 103, 103)
                 .addComponent(MainFrameTitlejLabel)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ReturnjButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SaveOutputjButton)
                 .addContainerGap())
             .addComponent(jTabbedPane)
@@ -105,7 +116,9 @@ public class OptionsJPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(MainFrameTitlejLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(SaveOutputjButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SaveOutputjButton)
+                    .addComponent(ReturnjButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -113,10 +126,10 @@ public class OptionsJPanel extends javax.swing.JPanel {
 
     private void SaveOutputjButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveOutputjButtonActionPerformed
 
-        JFileChooser jfc = new JFileChooser(Main.Main.data.getFile().getAbsolutePath());
+        JFileChooser jfc = new JFileChooser(Main.Data.file.getAbsolutePath());
         int returnValue = jfc.showSaveDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            String text = Main.Main.data.getOutput();
+            String text = Main.Data.Output;
             try (PrintWriter pw = new PrintWriter(jfc.getSelectedFile().getAbsolutePath())) {
                 pw.write(text);
                 pw.flush();
@@ -127,9 +140,17 @@ public class OptionsJPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_SaveOutputjButtonActionPerformed
 
+    private void ReturnjButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReturnjButtonActionPerformed
+        
+        Main.Data.MF.setContentPane(Main.Data.MF.cp);
+        Main.Data.MF.pack();
+        
+    }//GEN-LAST:event_ReturnjButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel MainFrameTitlejLabel;
+    private javax.swing.JButton ReturnjButton;
     private javax.swing.JButton SaveOutputjButton;
     private javax.swing.JScrollPane TLjScrollPane;
     private javax.swing.JTextPane TLjTextPane;

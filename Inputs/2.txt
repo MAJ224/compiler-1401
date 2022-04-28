@@ -4,7 +4,7 @@ void main(){
 	// ignore this
     }
     if (char!=   4){
-        char abc = "wrong char";
+        char abc = 'wrong char';
                     for(abc=3;acb<5;       bac++){abc++;}
     }
 }

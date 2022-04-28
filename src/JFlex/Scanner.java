@@ -23,6 +23,7 @@ package JFlex;
    For a production quality application (e.g. a Java compiler) 
    this could be optimized */
 import java.io.File;
+import java.util.ArrayList;
 import java_cup.runtime.*;
 import jflex.sym;
 
@@ -30,7 +31,8 @@ import jflex.sym;
 @SuppressWarnings("FallThrough")
 public class Scanner extends sym implements java_cup.runtime.Scanner {
 
-    static String output = "";
+    private static String output = "";
+    ArrayList<ArrayList<String>> IdentifierArr = new ArrayList<ArrayList<String>>();
 
     /**
      * This character denotes the end of file.
@@ -1499,9 +1501,9 @@ public class Scanner extends sym implements java_cup.runtime.Scanner {
             } else {
                 switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
                     case 1: {
-                        throw new RuntimeException("Illegal character \"" + yytext()
+                        System.out.println("Illegal character \"" + yytext()
                                 + "\" at line " + yyline + ", column " + yycolumn);
-                    }
+                        }
                     // fall through
                     case 137:
                         break;
@@ -2358,21 +2360,30 @@ public class Scanner extends sym implements java_cup.runtime.Scanner {
     /**
      * Same as next_token but also prints the token to standard out for
      * debugging.
+     * @throws java.io.IOException
      */
     public java_cup.runtime.Symbol debug_next_token() throws java.io.IOException {
         java_cup.runtime.Symbol s = next_token();
-        output += ("line: " + (yyline + 1) + " col: " + (yycolumn + 1) +
-                " --> Symbol: " + yytext() + " Token: " + getTokenName(s.sym) + "\n");
+        StoreOutput(yyline + 1, yycolumn + 1, yytext(), getTokenName(s.sym));
         return s;
     }
-
+    
+    /**
+     * Saves a string of lexical analyzed to output.
+     * 
+     */
+    private void StoreOutput (int line, int col, String text, String token){
+        
+        output += ("line: " + line + " col: " + col +
+                " --> Symbol: " + text + " Token: " + token + "\n");
+        
+    }
     public static String run(File file) {
 
-        Scanner scanner = null;
         try {
             java.io.FileInputStream stream = new java.io.FileInputStream(file);
             java.io.Reader reader = new java.io.InputStreamReader(stream);
-            scanner = new Scanner(reader);
+            Scanner scanner = new Scanner(reader);
             while (!scanner.zzAtEOF) {
                 scanner.debug_next_token();
             }

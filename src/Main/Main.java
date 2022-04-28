@@ -12,8 +12,9 @@ public class Main {
     public static Data data;
             
     public static void main(String[] args) {
-        // TODO code application logic here
-        data = new Data(new MainFrame());
+        
+        data.MF = new MainFrame();
+        data.MF.setVisible(true);
         
         
     }
