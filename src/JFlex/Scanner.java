@@ -25,7 +25,7 @@ package JFlex;
 import java.io.File;
 import java.util.ArrayList;
 import java_cup.runtime.*;
-import jflex.sym;
+import CUP.sym;
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
@@ -1689,7 +1689,7 @@ public class Scanner extends sym implements java_cup.runtime.Scanner {
                     case 167:
                         break;
                     case 32: {
-                        throw new RuntimeException("Unterminated string at end of line");
+                        output += "MISSING \"\n";
                     }
                     // fall through
                     case 168:
@@ -1702,7 +1702,7 @@ public class Scanner extends sym implements java_cup.runtime.Scanner {
                     case 169:
                         break;
                     case 34: {
-                        throw new RuntimeException("Unterminated character literal at end of line");
+                        output += "MISSING \'\n";
                     }
                     // fall through
                     case 170:

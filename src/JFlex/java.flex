@@ -162,6 +162,7 @@ SingleCharacter = [^\r\n\'\\]
   "try"                          { return symbol(TRY); }
   "volatile"                     { return symbol(VOLATILE); }
   "strictfp"                     { return symbol(STRICTFP); }
+  "string"                       { return symbol(STRING); }
   
   /* boolean literals */
   "true"                         { return symbol(BOOLEAN_LITERAL, true); }
