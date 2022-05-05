@@ -5,17 +5,13 @@
  */
 package JFlex;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Mohamad Amin Javan
  */
 public class SymbolTable {
     
-    ArrayList<ArrayList<String>> IdentifierArr = new ArrayList<ArrayList<String>>();
-    
-    public static void setArgument(String text, String token){
+    public static void Run (String text, String token){
         
         
         

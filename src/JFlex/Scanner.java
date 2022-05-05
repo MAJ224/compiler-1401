@@ -2376,7 +2376,7 @@ public class Scanner extends sym implements java_cup.runtime.Scanner {
         
         output += ("line: " + line + " col: " + col +
                 " --> Symbol: " + text + " Token: " + token + "\n");
-        
+        Main.Data.IdentifierArr.add(new String[]{text, token});
     }
     public static String run(File file) {
 

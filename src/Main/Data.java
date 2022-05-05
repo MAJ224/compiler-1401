@@ -18,5 +18,6 @@ public class Data {
     public static File file;
     public static MainFrame MF;
     public static OptionsJPanel OP;
-    public static ArrayList<ArrayList<String>> IdentifierArr;
+    public static ArrayList<String[]> IdentifierArr = new ArrayList<String[]>();
+    
 }
