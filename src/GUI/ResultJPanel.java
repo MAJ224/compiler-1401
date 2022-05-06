@@ -14,14 +14,17 @@ import javax.swing.JOptionPane;
  *
  * @author Mohamad Amin Javan
  */
-public class OptionsJPanel extends javax.swing.JPanel {
+public class ResultJPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form OptionsJPanel
      */
-    public OptionsJPanel() {
+    public ResultJPanel() {
         initComponents();
-        
+        TLjTextPane.setText(Main.Data.TLOutput);
+        TLjTextPane.setEnabled(false);
+        PTjTextPane.setText(Main.Data.PTOutput);
+        PTjTextPane.setEnabled(false);
     }
 
     /**
@@ -39,7 +42,7 @@ public class OptionsJPanel extends javax.swing.JPanel {
         TLjScrollPane = new javax.swing.JScrollPane();
         TLjTextPane = new javax.swing.JTextPane();
         TablejScrollPane = new javax.swing.JScrollPane();
-        jTable = new javax.swing.JTable();
+        PTjTextPane = new javax.swing.JTextPane();
         ReturnjButton = new javax.swing.JButton();
 
         MainFrameTitlejLabel.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
@@ -53,39 +56,15 @@ public class OptionsJPanel extends javax.swing.JPanel {
             }
         });
 
+        TLjTextPane.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         TLjScrollPane.setViewportView(TLjTextPane);
-        TLjTextPane.setText(Main.Data.Output);
 
         jTabbedPane.addTab("Tokens List", TLjScrollPane);
 
-        jTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Type", "Value"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
+        PTjTextPane.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        TablejScrollPane.setViewportView(PTjTextPane);
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        TablejScrollPane.setViewportView(jTable);
-
-        jTabbedPane.addTab("tab2", TablejScrollPane);
+        jTabbedPane.addTab("Parse Table", TablejScrollPane);
 
         ReturnjButton.setText("Return");
         ReturnjButton.addActionListener(new java.awt.event.ActionListener() {
@@ -98,24 +77,24 @@ public class OptionsJPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(103, 103, 103)
-                .addComponent(MainFrameTitlejLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(283, Short.MAX_VALUE)
                 .addComponent(ReturnjButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SaveOutputjButton)
                 .addContainerGap())
             .addComponent(jTabbedPane)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(MainFrameTitlejLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(MainFrameTitlejLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SaveOutputjButton)
                     .addComponent(ReturnjButton))
@@ -129,7 +108,7 @@ public class OptionsJPanel extends javax.swing.JPanel {
         JFileChooser jfc = new JFileChooser(Main.Data.file.getAbsolutePath());
         int returnValue = jfc.showSaveDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            String text = Main.Data.Output;
+            String text = Main.Data.TLOutput;
             try (PrintWriter pw = new PrintWriter(jfc.getSelectedFile().getAbsolutePath())) {
                 pw.write(text);
                 pw.flush();
@@ -150,12 +129,12 @@ public class OptionsJPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel MainFrameTitlejLabel;
+    private javax.swing.JTextPane PTjTextPane;
     private javax.swing.JButton ReturnjButton;
     private javax.swing.JButton SaveOutputjButton;
     private javax.swing.JScrollPane TLjScrollPane;
     private javax.swing.JTextPane TLjTextPane;
     private javax.swing.JScrollPane TablejScrollPane;
     private javax.swing.JTabbedPane jTabbedPane;
-    private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
 }
