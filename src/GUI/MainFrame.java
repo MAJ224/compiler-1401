@@ -21,6 +21,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
     Container cp = this.getContentPane();
+
     /**
      * Creates new form MainFrame
      */
@@ -31,8 +32,8 @@ public class MainFrame extends javax.swing.JFrame {
     public void SetText(String txt) {
         jTextPane.setText(txt);
     }
-    
-    public String getText(){
+
+    public String getText() {
         return jTextPane.getText();
     }
 
@@ -156,22 +157,24 @@ public class MainFrame extends javax.swing.JFrame {
             Main.Data.MF.SetText(Text);
             scn.close(); // closes the scanner
         }
-        
+
     }//GEN-LAST:event_LoadFilejButtonActionPerformed
 
     private void SaveFilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveFilejButtonActionPerformed
-        
-        String text = Main.Data.MF.getText();
-        Main.Data.Text = text;
-        try (PrintWriter pw = new PrintWriter(Main.Data.file.getAbsolutePath())) {
-            pw.write(text);
-            pw.flush();
-            pw.close();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "An error occurred while saving!", "Error", 0);
+        if (Main.Data.file == null) {
+            JOptionPane.showMessageDialog(this, "No File is Selected!", "Error", 0);
+        } else {
+            String text = Main.Data.MF.getText();
+            Main.Data.Text = text;
+            try (PrintWriter pw = new PrintWriter(Main.Data.file.getAbsolutePath())) {
+                pw.write(text);
+                pw.flush();
+                pw.close();
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "An error occurred while saving!", "Error", 0);
+            }
+            JOptionPane.showMessageDialog(this, "New File Has Been Saved!", "Success", 1);
         }
-        JOptionPane.showMessageDialog(this, "New File Has Been Saved!", "Success", 1);
-
     }//GEN-LAST:event_SaveFilejButtonActionPerformed
 
     private void CompilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompilejButtonActionPerformed
@@ -182,7 +185,7 @@ public class MainFrame extends javax.swing.JFrame {
             Main.Data.TLOutput = JFlex.Scanner.run(Main.Data.file);
             Main.Data.PTOutput = SymbolTable.CreateTable();
             if (JOptionPane.showConfirmDialog(this, "Continue To See Scanned Output?",
-                    "Scan Completed", 2) == JOptionPane.YES_OPTION){
+                    "Scan Completed", 2) == JOptionPane.YES_OPTION) {
                 ResultJPanel OP = new ResultJPanel();
                 Main.Data.OP = OP;
                 this.setContentPane(Main.Data.OP);
@@ -191,42 +194,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_CompilejButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame().setVisible(true);
-
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CompilejButton;
