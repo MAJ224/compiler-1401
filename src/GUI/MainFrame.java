@@ -1,6 +1,5 @@
 package GUI;
 
-import JFlex.SymbolTable;
 import java.awt.Container;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -182,9 +181,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (Main.Data.file == null) {
             JOptionPane.showMessageDialog(this, "No File is Selected!", "Error", 0);
         } else {
-            Main.Data.TLOutput = JFlex.Scanner.run(Main.Data.file);
-            Main.Data.PTOutput = SymbolTable.CreateTable();
-            if (JOptionPane.showConfirmDialog(this, "Continue To See Scanned Output?",
+            if (JOptionPane.showConfirmDialog(this, "Continue?",
                     "Scan Completed", 2) == JOptionPane.YES_OPTION) {
                 ResultJPanel OP = new ResultJPanel();
                 Main.Data.OP = OP;
