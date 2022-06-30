@@ -7,10 +7,7 @@ package GUI;
 
 import CUP.Parser;
 import JFlex.SymbolTable;
-import JFlex.LexerScanner;
-import JFlex.SymbolTable;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -130,33 +127,22 @@ public class ResultJPanel extends javax.swing.JPanel {
 
     private void CreateResult() {
 
+        SymbolTable ST = null;
+        XMLElement E = null;
+        Parser P = null;
+        String parse_debug;
         ComplexSymbolFactory csf = new ComplexSymbolFactory();
-        SymbolTable iden = null;
-        ScannerBuffer lexer = new ScannerBuffer(iden);
-        XMLElement e = null;
-        Parser p = null;
+        ScannerBuffer lexer = new ScannerBuffer(ST);
         try {
-            iden = new SymbolTable(new BufferedReader(new FileReader(Main.Data.file.getAbsolutePath())), csf);
-            p = new Parser(lexer, csf);
-            e = (XMLElement) p.parse().value;
+            ST = new SymbolTable(new BufferedReader(new FileReader(Main.Data.file.getAbsolutePath())), csf);
+            P = new Parser(lexer, csf);
+            E = (XMLElement) P.parse().value;
+            parse_debug = Parser.getDebug_parser(P);
         } catch (Exception ex) {
             Logger.getLogger(ResultJPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        String parse_debug = getDebug_parser(p);
         
         Main.Data.ST = ST;
-        Main.Data.PTOutput = ST.CreateTable();
-
-        
-        ScannerBuffer lexer = new ScannerBuffer(ST);
-        ComplexSymbolFactory csf = new ComplexSymbolFactory();
-        Parser parser = new Parser(lexer, csf);
-        try {
-            Main.Data.ParseOutput = parser.parse().toString();
-        } catch (Exception ex) {
-            Logger.getLogger(ResultJPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }
 }

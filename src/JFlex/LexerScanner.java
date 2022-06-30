@@ -29,7 +29,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
 
-public class LexerScanner extends CUP.sym implements Scanner{
+public class LexerScanner extends sym implements Scanner {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -1926,6 +1926,7 @@ public class LexerScanner extends CUP.sym implements Scanner{
   }
 
 
+  @Override
   public Symbol next_token() throws Exception {
     return yylex();
   }

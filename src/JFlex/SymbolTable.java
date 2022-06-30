@@ -3,10 +3,7 @@ package JFlex;
 
 import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.Symbol;
-
-import javax.swing.*;
 import java.io.*;
-import java.time.format.TextStyle;
 
 public class SymbolTable extends LexerScanner{
     LexerScanner type_scanner;
@@ -22,10 +19,10 @@ public class SymbolTable extends LexerScanner{
     
     public SymbolTable(Reader in, ComplexSymbolFactory csf) {
         super(in, csf);
-        Go();
+        CreateTable();
     }
 
-    public void Go() {
+    public void CreateTable() {
         try {
             type_scanner = new LexerScanner(new FileReader(Address));
             text_scanner = new LexerScanner(new FileReader(Address));
