@@ -9,6 +9,7 @@ import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.ScannerBuffer;
 import java_cup.runtime.XMLElement;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
@@ -18,12 +19,14 @@ public class ResultJPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form OptionsJPanel
+     *
      * @throws java.lang.Exception
      */
     public ResultJPanel() throws Exception {
         CreateResult();
         initComponents();
         CreateTable();
+        CreateTree();
         TLjTextPane.setText(Main.Data.TLOutput);
         TLjTextPane.setEnabled(false);
         ParseDebugjTextPane.setText(Main.Data.ParseOutput);
@@ -47,7 +50,8 @@ public class ResultJPanel extends javax.swing.JPanel {
         ParseDebugjTextPane = new javax.swing.JTextPane();
         ReturnjButton = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(400, 300));
+        setMaximumSize(new java.awt.Dimension(1024, 720));
+        setPreferredSize(new java.awt.Dimension(500, 500));
 
         MainFrameTitlejLabel.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         MainFrameTitlejLabel.setText("Java Compiler Project");
@@ -118,30 +122,57 @@ public class ResultJPanel extends javax.swing.JPanel {
         // Print Lexer Analyzer part
         LexerScanner LS = new LexerScanner();
         Main.Data.TLOutput = LS.Run(Main.Data.file);
-        System.out.println(Main.Data.TLOutput);
+
         ComplexSymbolFactory csf = new ComplexSymbolFactory();
         SymbolTable ST = new SymbolTable(new BufferedReader(new FileReader(Main.Data.file.getAbsolutePath())), csf);
         ScannerBuffer SB = new ScannerBuffer(ST);
         Parser P = new Parser(SB, csf);
+
         Main.Data.e = (XMLElement) P.parse().value;
         Main.Data.ParseOutput = Parser.getDebug_parser(P);
         Main.Data.ST = ST;
-        
+
     }
-    
-    private void CreateTable(){
-        
-        String[] COL_HEADER ={"ID Number","Identifier","Type","Value"};
+
+    private void CreateTable() {
+
+        String[] COL_HEADER = {"ID Number", "Identifier", "Type", "Value"};
         DefaultTableModel tableModel = new DefaultTableModel(COL_HEADER, 0);
         String[][] table = Main.Data.ST.get_Token_Table();
-        for(int i = 0 ; i < 10 ; i++){
+        for (int i = 0; i < 10; i++) {
             tableModel.insertRow(i, table[i]);
         }
-        javax.swing.JTable PTjtable = new javax.swing.JTable(tableModel);  
+        javax.swing.JTable PTjtable = new javax.swing.JTable(tableModel);
         PTjtable.setEnabled(false);
         javax.swing.JScrollPane PTjScrollPane = new javax.swing.JScrollPane(PTjtable);
         jTabbedPane.addTab("Parse Table", PTjScrollPane);
+
+    }
+
+    private void CreateTree() {
+
+        javax.swing.JTree PTjtree = new javax.swing.JTree(TreeGen(Main.Data.e, null));
+        javax.swing.JScrollPane PTjScrollPane = new javax.swing.JScrollPane(PTjtree);
+        jTabbedPane.addTab("Parse Tree", PTjScrollPane);
         
     }
-    
+
+    private DefaultMutableTreeNode TreeGen(XMLElement e, DefaultMutableTreeNode root) {
+        if (root == null) {
+            //create the root node
+            root = new DefaultMutableTreeNode("Tree");
+        }
+        //create the child nodes
+        for (int i = 0; i < e.getChildren().size(); i++) {
+            XMLElement next = e.getChildren().get(i);
+            if (next.hasChildren()) {
+                DefaultMutableTreeNode new_root = new DefaultMutableTreeNode(e.getTagname());
+                root.add(TreeGen(next, new_root));
+            } else {
+                root.add(new DefaultMutableTreeNode(next.getTagname()));
+            }
+        }
+        return root;
+    }
+
 }

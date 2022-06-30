@@ -2944,8 +2944,6 @@ public class Parser extends java_cup.runtime.lr_parser {
 
     public void report_fatal_error(String message, Object info) {
         report_error(message, info);
-        //return;
-//    throw new RuntimeException("Fatal Syntax Error");
     }
 
     public Parser(LexerScanner lex, ComplexSymbolFactory sf) {
@@ -2957,16 +2955,16 @@ public class Parser extends java_cup.runtime.lr_parser {
     public static String getDebug_parser(Parser p) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
-// IMPORTANT: Save the old System.out!
+        // IMPORTANT: Save the old System.out!
         PrintStream old = System.err;
-// Tell Java to use your special stream
+        // Tell Java to use your special stream
         System.setErr(ps);
-// Print some output: goes to your special stream
+        // Print some output: goes to your special stream
         p.debug_parse();
-// Put things back
+        // Put things back
         System.err.flush();
         System.setErr(old);
-// Show what happened
+        // Show what happened
         return baos.toString();
     }
 
@@ -8714,7 +8712,6 @@ public class Parser extends java_cup.runtime.lr_parser {
         }
 
         /* end of method */
-
         /**
          * Method splitting the generated action code into several parts.
          */
