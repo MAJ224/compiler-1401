@@ -1,0 +1,10 @@
+public void main(){
+
+	int a = 5;
+	float b = 6.2;
+	// this is comment
+	a++;
+	b = 7.5;
+	String c = "HELLO";
+
+}

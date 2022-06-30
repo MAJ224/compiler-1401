@@ -18,6 +18,7 @@ public class Data {
     public static String Text = "";
     public static String TLOutput = ""; // Tokens List Output
     public static String PTOutput = ""; // Pase Table Output
+    public static String ParseOutput = ""; // Parse Result Output
     
     // 
     public static File file;
