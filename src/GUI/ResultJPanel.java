@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI;
 
 import CUP.Parser;
 import JFlex.SymbolTable;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.ScannerBuffer;
 import java_cup.runtime.XMLElement;
@@ -24,7 +17,7 @@ public class ResultJPanel extends javax.swing.JPanel {
     /**
      * Creates new form OptionsJPanel
      */
-    public ResultJPanel() {
+    public ResultJPanel() throws Exception {
         CreateResult();
         initComponents();
         TLjTextPane.setText(Main.Data.TLOutput);
@@ -53,6 +46,8 @@ public class ResultJPanel extends javax.swing.JPanel {
         ParsejScrollPane = new javax.swing.JScrollPane();
         ParsejTextPane = new javax.swing.JTextPane();
         ReturnjButton = new javax.swing.JButton();
+
+        setPreferredSize(new java.awt.Dimension(300, 300));
 
         MainFrameTitlejLabel.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         MainFrameTitlejLabel.setText("Java Compiler Project");
@@ -85,9 +80,9 @@ public class ResultJPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(53, Short.MAX_VALUE)
                 .addComponent(MainFrameTitlejLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ReturnjButton)
@@ -100,8 +95,9 @@ public class ResultJPanel extends javax.swing.JPanel {
                 .addComponent(MainFrameTitlejLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ReturnjButton)
-                .addGap(3, 3, 3)
-                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -125,23 +121,15 @@ public class ResultJPanel extends javax.swing.JPanel {
     private javax.swing.JTabbedPane jTabbedPane;
     // End of variables declaration//GEN-END:variables
 
-    private void CreateResult() {
+    private void CreateResult() throws Exception {
 
-        SymbolTable ST = null;
-        XMLElement E = null;
-        Parser P = null;
-        String parse_debug;
         ComplexSymbolFactory csf = new ComplexSymbolFactory();
+        SymbolTable ST = new SymbolTable(new BufferedReader(new FileReader(Main.Data.file.getAbsolutePath())), csf);
         ScannerBuffer lexer = new ScannerBuffer(ST);
-        try {
-            ST = new SymbolTable(new BufferedReader(new FileReader(Main.Data.file.getAbsolutePath())), csf);
-            P = new Parser(lexer, csf);
-            E = (XMLElement) P.parse().value;
-            parse_debug = Parser.getDebug_parser(P);
-        } catch (Exception ex) {
-            Logger.getLogger(ResultJPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        Parser P = new Parser(lexer, csf);
+        XMLElement e = (XMLElement) P.parse().value;
+        String parse_debug = Parser.getDebug_parser(P);
+
         Main.Data.ST = ST;
 
     }
