@@ -18,15 +18,16 @@ public class ResultJPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form OptionsJPanel
+     * @throws java.lang.Exception
      */
     public ResultJPanel() throws Exception {
         CreateResult();
-        CreateTable();
         initComponents();
+        CreateTable();
         TLjTextPane.setText(Main.Data.TLOutput);
         TLjTextPane.setEnabled(false);
-        ParsejTextPane.setText(Main.Data.ParseOutput);
-        ParsejTextPane.setEnabled(false);
+        ParseDebugjTextPane.setText(Main.Data.ParseOutput);
+        ParseDebugjTextPane.setEnabled(false);
     }
 
     /**
@@ -42,10 +43,8 @@ public class ResultJPanel extends javax.swing.JPanel {
         jTabbedPane = new javax.swing.JTabbedPane();
         TLjScrollPane = new javax.swing.JScrollPane();
         TLjTextPane = new javax.swing.JTextPane();
-        PTjScrollPane = new javax.swing.JScrollPane();
-        PTjTable = new javax.swing.JTable();
-        ParsejScrollPane = new javax.swing.JScrollPane();
-        ParsejTextPane = new javax.swing.JTextPane();
+        ParseDebugjScrollPane = new javax.swing.JScrollPane();
+        ParseDebugjTextPane = new javax.swing.JTextPane();
         ReturnjButton = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(400, 300));
@@ -59,14 +58,10 @@ public class ResultJPanel extends javax.swing.JPanel {
 
         jTabbedPane.addTab("Tokens List", TLjScrollPane);
 
-        PTjTable.setModel(CreateTable());
-        PTjScrollPane.setViewportView(PTjTable);
+        ParseDebugjTextPane.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        ParseDebugjScrollPane.setViewportView(ParseDebugjTextPane);
 
-        jTabbedPane.addTab("Parse Table", PTjScrollPane);
-
-        ParsejScrollPane.setViewportView(ParsejTextPane);
-
-        jTabbedPane.addTab("Parse", ParsejScrollPane);
+        jTabbedPane.addTab("Parse Debug", ParseDebugjScrollPane);
 
         ReturnjButton.setText("Return");
         ReturnjButton.addActionListener(new java.awt.event.ActionListener() {
@@ -111,10 +106,8 @@ public class ResultJPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel MainFrameTitlejLabel;
-    private javax.swing.JScrollPane PTjScrollPane;
-    private javax.swing.JTable PTjTable;
-    private javax.swing.JScrollPane ParsejScrollPane;
-    private javax.swing.JTextPane ParsejTextPane;
+    private javax.swing.JScrollPane ParseDebugjScrollPane;
+    private javax.swing.JTextPane ParseDebugjTextPane;
     private javax.swing.JButton ReturnjButton;
     private javax.swing.JScrollPane TLjScrollPane;
     private javax.swing.JTextPane TLjTextPane;
@@ -122,28 +115,32 @@ public class ResultJPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void CreateResult() throws Exception {
-
+        // Print Lexer Analyzer part
         LexerScanner LS = new LexerScanner();
         Main.Data.TLOutput = LS.Run(Main.Data.file);
-        
+        System.out.println(Main.Data.TLOutput);
         ComplexSymbolFactory csf = new ComplexSymbolFactory();
         SymbolTable ST = new SymbolTable(new BufferedReader(new FileReader(Main.Data.file.getAbsolutePath())), csf);
         ScannerBuffer SB = new ScannerBuffer(ST);
         Parser P = new Parser(SB, csf);
-        XMLElement e = (XMLElement) P.parse().value;
-        
-        Main.Data.PTOutput = Parser.getDebug_parser(P);
+        Main.Data.e = (XMLElement) P.parse().value;
+        Main.Data.ParseOutput = Parser.getDebug_parser(P);
         Main.Data.ST = ST;
         
     }
     
-    private DefaultTableModel CreateTable(){
+    private void CreateTable(){
         
-        String[] COL_HEADER ={"ID Number","Identifier","Type","value"};
+        String[] COL_HEADER ={"ID Number","Identifier","Type","Value"};
         DefaultTableModel tableModel = new DefaultTableModel(COL_HEADER, 0);
-        for(int i=0 ; i < Main.Data.IdentifierArr.size() ; i++)
-            tableModel.insertRow(i, Main.Data.IdentifierArr.get(i));
-        return tableModel;
+        String[][] table = Main.Data.ST.get_Token_Table();
+        for(int i = 0 ; i < 10 ; i++){
+            tableModel.insertRow(i, table[i]);
+        }
+        javax.swing.JTable PTjtable = new javax.swing.JTable(tableModel);  
+        PTjtable.setEnabled(false);
+        javax.swing.JScrollPane PTjScrollPane = new javax.swing.JScrollPane(PTjtable);
+        jTabbedPane.addTab("Parse Table", PTjScrollPane);
         
     }
     

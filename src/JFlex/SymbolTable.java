@@ -1,13 +1,12 @@
 package JFlex;
 
-
+import CUP.Parser;
 import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.Symbol;
 import java.io.*;
 
 public class SymbolTable extends LexerScanner{
     LexerScanner type_scanner;
-    LexerScanner text_scanner;
     private static final int MAX_Token = 10000;
     private int no_Table_Col = 4;
     public String[][] Table = new String[MAX_Token][no_Table_Col];
@@ -15,7 +14,7 @@ public class SymbolTable extends LexerScanner{
     protected String[] Token_text = new String[MAX_Token];
     protected int no_Token = 0;
     private int no_identifier = 0;
-    private String Address = Main.Data.file.getAbsolutePath();
+    private String Address = Parser.address;
     
     public SymbolTable(Reader in, ComplexSymbolFactory csf) {
         super(in, csf);
@@ -25,7 +24,6 @@ public class SymbolTable extends LexerScanner{
     public void CreateTable() {
         try {
             type_scanner = new LexerScanner(new FileReader(Address));
-            text_scanner = new LexerScanner(new FileReader(Address));
             for(int i = 0;i < MAX_Token;i++){
                 for(int j = 0;j < no_Table_Col;j++){
                     Table[i][j] = new String();
@@ -170,7 +168,7 @@ public class SymbolTable extends LexerScanner{
 
     public String[][] getTable(int row,String[][] Table){
         String[][] ReSized_Table = new String[row][no_Table_Col];
-        for(int i = 0;i < row;i++){
+        for(int i = 0 ; i < row ; i++){
             ReSized_Table[i] = Table[i];
         }
         return ReSized_Table;

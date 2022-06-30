@@ -22,7 +22,6 @@ package JFlex;
    the numbers are not very fast. 
    For a production quality application (e.g. a Java compiler) 
    this could be optimized */
-
 import CUP.sym;
 import java.io.File;
 import java_cup.runtime.ComplexSymbolFactory;
@@ -32,14 +31,10 @@ import java_cup.runtime.Symbol;
 
 public class LexerScanner extends sym implements Scanner {
 
-    public LexerScanner(){
-        
-    }
     /**
      * This String stores Tokens
      */
-    private static String output;
-    
+    private static String output = "";
     /**
      * This character denotes the end of file
      */
@@ -988,7 +983,7 @@ public class LexerScanner extends sym implements Scanner {
     /**
      * zzAtEOF == true <=> the scanner is at the EOF
      */
-    private static boolean zzAtEOF;
+    private boolean zzAtEOF;
 
     /**
      * denotes if the user-EOF-code has already been executed
@@ -1052,6 +1047,9 @@ public class LexerScanner extends sym implements Scanner {
      */
     public LexerScanner(java.io.Reader in) {
         this.zzReader = in;
+    }
+
+    public LexerScanner() {
     }
 
     /**
@@ -2124,7 +2122,7 @@ public class LexerScanner extends sym implements Scanner {
     public Symbol next_token() throws Exception {
         return yylex();
     }
-    
+
     /**
      * Converts an int token code into the name of the token by reflection on
      * the cup symbol class/interface sym
@@ -2147,6 +2145,7 @@ public class LexerScanner extends sym implements Scanner {
     /**
      * Same as next_token but also prints the token to standard out for
      * debugging.
+     *
      * @throws java.io.IOException
      */
     public java_cup.runtime.Symbol debug_next_token() throws Exception {
@@ -2154,20 +2153,18 @@ public class LexerScanner extends sym implements Scanner {
         StoreOutput(yyline + 1, yycolumn + 1, yytext(), getTokenName(s.sym));
         return s;
     }
-    
+
     /**
      * Saves a string of lexical analyzed to output.
-     * 
+     *
      */
-    private void StoreOutput (int line, int col, String text, String token){
-        output += ("line: " + line + " col: " + col +
-                " --> Symbol: " + text + " Token: " + token + "\n");
+    private void StoreOutput(int line, int col, String text, String token) {
+        output += ("line: " + line + " col: " + col
+                + " --> Symbol: " + text + " Token: " + token + "\n");
         Main.Data.IdentifierArr.add(new String[]{text, token});
-        
     }
-    
-    public String Run(File file) {
 
+    public String Run(File file) {
         try {
             java.io.FileInputStream stream = new java.io.FileInputStream(file);
             java.io.Reader reader = new java.io.InputStreamReader(stream);
@@ -2182,8 +2179,9 @@ public class LexerScanner extends sym implements Scanner {
             System.out.println("Unexpected exception:");
             e.printStackTrace();
         }
+
         return output;
 
     }
-    
+
 }
