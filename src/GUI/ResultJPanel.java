@@ -1,12 +1,14 @@
 package GUI;
 
 import CUP.Parser;
+import JFlex.LexerScanner;
 import JFlex.SymbolTable;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.ScannerBuffer;
 import java_cup.runtime.XMLElement;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,11 +21,10 @@ public class ResultJPanel extends javax.swing.JPanel {
      */
     public ResultJPanel() throws Exception {
         CreateResult();
+        CreateTable();
         initComponents();
         TLjTextPane.setText(Main.Data.TLOutput);
         TLjTextPane.setEnabled(false);
-        PTjTextPane.setText(Main.Data.PTOutput);
-        PTjTextPane.setEnabled(false);
         ParsejTextPane.setText(Main.Data.ParseOutput);
         ParsejTextPane.setEnabled(false);
     }
@@ -42,12 +43,12 @@ public class ResultJPanel extends javax.swing.JPanel {
         TLjScrollPane = new javax.swing.JScrollPane();
         TLjTextPane = new javax.swing.JTextPane();
         PTjScrollPane = new javax.swing.JScrollPane();
-        PTjTextPane = new javax.swing.JTextPane();
+        PTjTable = new javax.swing.JTable();
         ParsejScrollPane = new javax.swing.JScrollPane();
         ParsejTextPane = new javax.swing.JTextPane();
         ReturnjButton = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(300, 300));
+        setPreferredSize(new java.awt.Dimension(400, 300));
 
         MainFrameTitlejLabel.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         MainFrameTitlejLabel.setText("Java Compiler Project");
@@ -58,8 +59,8 @@ public class ResultJPanel extends javax.swing.JPanel {
 
         jTabbedPane.addTab("Tokens List", TLjScrollPane);
 
-        PTjTextPane.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        PTjScrollPane.setViewportView(PTjTextPane);
+        PTjTable.setModel(CreateTable());
+        PTjScrollPane.setViewportView(PTjTable);
 
         jTabbedPane.addTab("Parse Table", PTjScrollPane);
 
@@ -78,11 +79,11 @@ public class ResultJPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jTabbedPane)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
+                .addContainerGap(103, Short.MAX_VALUE)
                 .addComponent(MainFrameTitlejLabel)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ReturnjButton)
@@ -95,9 +96,8 @@ public class ResultJPanel extends javax.swing.JPanel {
                 .addComponent(MainFrameTitlejLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ReturnjButton)
-                .addGap(31, 31, 31)
-                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addGap(10, 10, 10)
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -112,7 +112,7 @@ public class ResultJPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel MainFrameTitlejLabel;
     private javax.swing.JScrollPane PTjScrollPane;
-    private javax.swing.JTextPane PTjTextPane;
+    private javax.swing.JTable PTjTable;
     private javax.swing.JScrollPane ParsejScrollPane;
     private javax.swing.JTextPane ParsejTextPane;
     private javax.swing.JButton ReturnjButton;
@@ -123,14 +123,28 @@ public class ResultJPanel extends javax.swing.JPanel {
 
     private void CreateResult() throws Exception {
 
+        LexerScanner LS = new LexerScanner();
+        Main.Data.TLOutput = LS.Run(Main.Data.file);
+        
         ComplexSymbolFactory csf = new ComplexSymbolFactory();
         SymbolTable ST = new SymbolTable(new BufferedReader(new FileReader(Main.Data.file.getAbsolutePath())), csf);
-        ScannerBuffer lexer = new ScannerBuffer(ST);
-        Parser P = new Parser(lexer, csf);
+        ScannerBuffer SB = new ScannerBuffer(ST);
+        Parser P = new Parser(SB, csf);
         XMLElement e = (XMLElement) P.parse().value;
-        String parse_debug = Parser.getDebug_parser(P);
-
+        
+        Main.Data.PTOutput = Parser.getDebug_parser(P);
         Main.Data.ST = ST;
-
+        
     }
+    
+    private DefaultTableModel CreateTable(){
+        
+        String[] COL_HEADER ={"ID Number","Identifier","Type","value"};
+        DefaultTableModel tableModel = new DefaultTableModel(COL_HEADER, 0);
+        for(int i=0 ; i < Main.Data.IdentifierArr.size() ; i++)
+            tableModel.insertRow(i, Main.Data.IdentifierArr.get(i));
+        return tableModel;
+        
+    }
+    
 }

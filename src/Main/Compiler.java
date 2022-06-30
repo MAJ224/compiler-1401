@@ -16,7 +16,6 @@ public class Compiler {
         data.MF = new MainFrame();
         data.MF.setVisible(true);
         
-        
     }
     
 }

@@ -58,6 +58,7 @@ public class MainFrame extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 500, 500));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        setPreferredSize(new java.awt.Dimension(400, 300));
 
         MainFrameTitlejLabel.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         MainFrameTitlejLabel.setText("Java Compiler Project");
@@ -106,9 +107,9 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(SaveFilejButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
+                        .addContainerGap(100, Short.MAX_VALUE)
                         .addComponent(MainFrameTitlejLabel)
-                        .addGap(0, 92, Short.MAX_VALUE))
+                        .addGap(0, 96, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1)))
@@ -183,7 +184,12 @@ public class MainFrame extends javax.swing.JFrame {
         } else {
             if (JOptionPane.showConfirmDialog(this, "Continue?",
                     "Scan Completed", 2) == JOptionPane.YES_OPTION) {
-                ResultJPanel OP = new ResultJPanel();
+                ResultJPanel OP = null;
+                try {
+                    OP = new ResultJPanel();
+                } catch (Exception ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 Main.Data.OP = OP;
                 this.setContentPane(Main.Data.OP);
                 this.pack();
