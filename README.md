@@ -1,10 +1,10 @@
 # compiler-1401
 ---
-###Compiler Project For SUTECH 1401
+### Compiler Project For SUTECH 1401
 This is a GUI program **JAVA** compiler based on **JAVA JFlex Scanner** and **JAVA CUP Parser**
 
 
-##Codes to begin with
+## Codes to begin with
 We can use ideal codes like
 ```
 public void main(){
@@ -41,9 +41,10 @@ void main()
 }
 ```
 
+---
 
 
-##GUI
+## GUI
 
 When Opening Program **Main Frame** will be opened
 
