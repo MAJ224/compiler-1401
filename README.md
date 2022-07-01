@@ -5,7 +5,7 @@ This is a GUI program **JAVA** compiler based on **JAVA JFlex Scanner** and **JA
 
 
 ## Codes to begin with
-We can use ideal codes like
+We can use ideal codes like to parse:
 ```
 public void main(){
 
@@ -19,7 +19,7 @@ public void main(){
 }
 ```
 
-to parse or use codes like 
+Or use codes with bugs like:
 ```
 void main()
 //shiraz university of technology
@@ -40,8 +40,6 @@ void main()
     {a--;}
 }
 ```
-
----
 
 
 ## GUI
