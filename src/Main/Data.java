@@ -19,6 +19,7 @@ public class Data {
     public static String Text = "";
     public static String TLOutput = ""; // Tokens List Output
     public static String ParseOutput = ""; // Parse Result Output
+    public static String Errors = ""; // Generated Errors
     public static XMLElement e = null;
     
     public static File file;

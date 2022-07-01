@@ -2113,6 +2113,7 @@ public class LexerScanner extends sym implements Scanner {
                         break;
                     default:
                         zzScanError(ZZ_NO_MATCH);
+                        // Can't Match The Token
                 }
             }
         }
