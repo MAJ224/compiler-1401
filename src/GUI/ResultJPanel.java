@@ -101,7 +101,8 @@ public class ResultJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ReturnjButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReturnjButtonActionPerformed
-
+        
+        Main.Data.reset();
         Main.Data.MF.setContentPane(Main.Data.MF.cp);
         Main.Data.MF.pack();
 

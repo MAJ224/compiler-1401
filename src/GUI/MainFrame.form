@@ -55,7 +55,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="SaveFilejButton" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jScrollPane" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -76,7 +76,7 @@
                   <Component id="CompilejButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="223" max="32767" attributes="0"/>
+              <Component id="jScrollPane" pref="223" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -117,13 +117,13 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SaveFilejButtonActionPerformed"/>
       </Events>
     </Component>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+    <Container class="javax.swing.JScrollPane" name="jScrollPane">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="TextLineNumber tln = new TextLineNumber(jTextPane);&#xa;jScrollPane1.setRowHeaderView(tln);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="TextLineNumber tln = new TextLineNumber(jTextPane);&#xa;jScrollPane.setRowHeaderView(tln);"/>
           </AuxValues>
         </Component>
       </SubComponents>

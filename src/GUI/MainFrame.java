@@ -49,7 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
         LoadFilejButton = new javax.swing.JButton();
         InputCodejLabel = new javax.swing.JLabel();
         SaveFilejButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane = new javax.swing.JScrollPane();
         jTextPane = new javax.swing.JTextPane();
         CompilejButton = new javax.swing.JButton();
 
@@ -80,9 +80,9 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.setViewportView(jTextPane);
+        jScrollPane.setViewportView(jTextPane);
         TextLineNumber tln = new TextLineNumber(jTextPane);
-        jScrollPane1.setRowHeaderView(tln);
+        jScrollPane.setRowHeaderView(tln);
 
         CompilejButton.setText("Compile");
         CompilejButton.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +112,7 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(LoadFilejButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(SaveFilejButton))
-                            .addComponent(jScrollPane1))))
+                            .addComponent(jScrollPane))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -127,7 +127,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(SaveFilejButton)
                     .addComponent(CompilejButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -179,7 +179,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void CompilejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompilejButtonActionPerformed
 
-        if (Main.Data.file == null) {
+        Main.Data.Text = jTextPane.getText();
+        if (Main.Data.file == null && Main.Data.Text.equals("")) {
             JOptionPane.showMessageDialog(this, "No File is Selected!", "Error", 0);
         } else {
             if (JOptionPane.showConfirmDialog(this, "Continue?",
@@ -190,8 +191,8 @@ public class MainFrame extends javax.swing.JFrame {
                 } catch (Exception ex) {
                     Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                Main.Data.OP = OP;
-                this.setContentPane(Main.Data.OP);
+                Main.Data.RP = OP;
+                this.setContentPane(Main.Data.RP);
                 this.pack();
             }
         }
@@ -204,7 +205,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton LoadFilejButton;
     private javax.swing.JLabel MainFrameTitlejLabel;
     private javax.swing.JButton SaveFilejButton;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTextPane jTextPane;
     // End of variables declaration//GEN-END:variables
 }

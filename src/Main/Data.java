@@ -22,9 +22,9 @@ public class Data {
     public static String Errors = ""; // Generated Errors
     public static XMLElement e = null;
     
-    public static File file;
+    public static File file = null;
     public static MainFrame MF;
-    public static ResultJPanel OP;
+    public static ResultJPanel RP;
     public static SymbolTable ST;
     
     // ARRAYS
@@ -33,5 +33,11 @@ public class Data {
     *  at [1] TYPE
     */
     public static ArrayList<String[]> IdentifierArr = new ArrayList<String[]>();
+
+    public static void reset() {
+        
+        file = null;
+        
+    }
     
 }
